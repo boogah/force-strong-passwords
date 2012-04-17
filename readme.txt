@@ -3,7 +3,7 @@ Contributors: gyrus
 Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
 Tags: passwords, security, users, profile
 Requires at least: 3.1
-Tested up to: 3.2.1
+Tested up to: 3.3.1
 Stable tag: 1.0
 
 Forces users with executive capabilities to use something strong when updating their passwords.
@@ -29,5 +29,10 @@ Development code hosted at [GitHub](https://github.com/gyrus/Force-Strong-Passwo
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.1 =
+* Added JavaScript to force a strong password on the reset password form
+* PHPDoc for callable functions
+* Improved function naming
+
 = 1.0 =
 * First version
