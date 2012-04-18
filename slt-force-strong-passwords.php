@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Force Strong Passwords
-Description: Forces users with executive capabilities to use something strong when updating their passwords.
+Description: Forces users to use something strong when updating their passwords.
 Version: 1.1
 Author: Steve Taylor
 Author URI: http://sltaylor.co.uk
@@ -28,6 +28,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 if ( ! function_exists( 'add_action' ) ) {
 	_e( "Hi there! I'm just a plugin, not much I can do when called directly." );
 	exit;
+}
+
+// Initialize
+if ( ! defined( 'SLT_FSP_CAPS_CHECK' ) ) {
+	// The default capabilities that will be checked for to trigger strong password enforcement
+	define( 'SLT_FSP_CAPS_CHECK', 'publish_posts,upload_files,edit_published_posts' );
 }
 
 // Hook onto profile update to check user profile update and throw an error if the password isn't strong
@@ -60,14 +66,22 @@ function slt_fsp_validate_profile_update( $errors ) {
  *
  */
 function slt_fsp_enforce_for_user( $user ) {
-	$enforce = false;
-	if ( $userdata = get_user_by( ( ( is_int( $user ) || ctype_digit( $user ) ) ? 'id' : 'login' ), $user ) ) {
-		if (
-			user_can( $userdata->ID, 'publish_posts' ) ||
-			user_can( $userdata->ID, 'upload_files' ) ||
-			user_can( $userdata->ID, 'edit_published_posts' )
-		)
-			$enforce = true;
+	$enforce = true;
+	if ( SLT_FSP_CAPS_CHECK && is_string( SLT_FSP_CAPS_CHECK ) ) {
+		if ( ! is_int( $user ) ) {
+			// Username provided, get ID
+			$userdata = get_user_by( 'login', $user );
+			$user = $userdata->ID;
+		}
+		// Get the capabilities to check
+		$check_caps = explode( ',', SLT_FSP_CAPS_CHECK );
+		$enforce = false; // Now we won't enforce unless the user has one of the caps specified
+		foreach ( $check_caps as $cap ) {
+			if ( user_can( $user, $cap ) ) {
+				$enforce = true;
+				break;
+			}
+		}
 	}
 	return $enforce;
 }
@@ -106,8 +120,9 @@ function slt_fsp_password_strength( $i, $f ) {
 // Due to lack of decent hooks, use JS for "reset password form"
 // Not 100% secure, but it'll do for now...
 // @todo Find a way to do reset password validation on the server
-if ( isset( $_GET['action'] ) && $_GET['action'] == 'rp' && isset( $_GET['login'] ) )
+if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'rp' || $_GET['action'] == 'resetpass' ) && isset( $_GET['login'] ) ) {
 	add_action( 'login_head', 'slt_fsp_validate_reset_password' );
+}
 function slt_fsp_validate_reset_password() {
 
 	// Enforce for this user?
