@@ -38,7 +38,6 @@ if ( ! defined( 'SLT_FSP_CAPS_CHECK' ) ) {
 
 // Hook onto profile update to check user profile update and throw an error if the password isn't strong
 add_action( 'user_profile_update_errors', 'slt_fsp_validate_profile_update', 0, 3 );
-// Note that because $errors is passed by reference, and doesn't *need* to be returned
 function slt_fsp_validate_profile_update( $errors, $update, $user_data ) {
 	return slt_fsp_validate_strong_password( $errors, $user_data );
 }
@@ -53,8 +52,12 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 	$user_id = isset( $user_data->ID ) ? $user_data->ID : false;
 	$username = isset( $_POST["user_login"] ) ? $_POST["user_login"] : $user_data->user_login;
 
-	// Don't bother with any enforcement if there's no password, or there's already a password error
-	if ( false === $password || $errors->get_error_data("pass") )
+	// No password set?
+	if ( false === $password )
+		return $errors;
+
+	// Already got a password error?
+	if ( $errors->get_error_data("pass") )
 		return $errors;
 
 	// Should a strong password be enforced for this user?
