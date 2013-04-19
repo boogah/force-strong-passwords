@@ -31,30 +31,62 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 // Hook onto profile update
-add_action( 'user_profile_update_errors', 'slt_strong_passwords', 0, 3 );
+add_action( 'user_profile_update_errors', 'slt_user_profile_update_errors', 0, 3 );
 
 // Check user profile update and throw an error if the password isn't strong
-function slt_strong_passwords( $errors ) {
-	$enforce = true;
-	$args = func_get_args();
-	$user_id = $args[2]->ID;
-	if ( $user_id ) {
-		// User ID specified - test on basic capabilities that can compromise a site
-		// Doesn't check on higher capabilities - it's assumed the someone who can't publish_posts won't be able to update_core!
-		if (
-			! user_can( $user_id, 'publish_posts' ) &&
-			! user_can( $user_id, 'upload_files' ) &&
-			! user_can( $user_id, 'edit_published_posts' )
-		)
-			$enforce = false;
+// Note that because $errors is passed by reference, and doesn't *need* to be returned
+function slt_user_profile_update_errors( $errors, $update, $user_data ) {
+	$user_id = isset( $user_data->ID ) ? $user_data->ID : false;
+
+	$password = isset( $_POST[ 'pass1' ] ) ? $_POST[ 'pass1' ]: false;
+	
+	if ( false === $password )
+		return $errors;
+
+	$role = isset( $_POST[ 'role' ] ) ? $_POST[ 'role' ]: false;
+
+	return slt_strong_passwords( $errors, $password, $user_data, $role );
+}
+
+// Check a password for a user
+function slt_strong_passwords( $errors, $password, $user_data, $role = false ) {
+	if ( ! isset( $user_data->ID ) && $role ) {
+		// No user yet, probably adding new user - omit check for "weaker" roles
+		if ( in_array( $role, array( 'subscriber', 'contributor' ) ) )
+			return $errors; // Returning early simplifies the IF statement below
 	} else {
-		// No ID yet, adding new user - omit check for "weaker" roles
-		if ( in_array( $_POST["role"], array( "subscriber", "contributor" ) ) )
-			$enforce = false;
+		// User specified - test on basic capabilities that can compromise a site
+		// Doesn't check on higher capabilities - it's assumed the someone who can't publish_posts won't be able to update_core!
+		$user = new WP_User( $user_data->ID );
+		if (
+				! user_can( $user, 'publish_posts' ) &&
+				! user_can( $user, 'upload_files' ) &&
+				! user_can( $user, 'edit_published_posts' )
+			)
+			return $errors;
 	}
-	if ( $enforce && ! $errors->get_error_data("pass") && $_POST["pass1"] && slt_password_strength( $_POST["pass1"], $_POST["user_login"] ) != 4 )
-		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.' ) );
+	
+	if ( slt_password_strength( $password, $user_data->user_login ) == 4 )
+		return $errors;
+
+	if ( $errors->get_error_data("pass") )
+		return $errors;
+
+	// If we've got here then checks have failed, so add the error
+	$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.' ) );
 	return $errors;
+}
+
+add_action( 'validate_password_reset', 'slt_validate_password_reset', 10, 2 );
+
+// Check the reset password
+// Note that because $errors is an object, it is passed by reference so doesn't *need* to be returned
+function slt_validate_password_reset( $errors, $user ) {
+	$password = isset( $_POST[ 'pass1' ] ) ? $_POST[ 'pass1' ]: false;
+	if ( false === $password )
+		return $errors;
+
+	return slt_strong_passwords( $errors, $password, $user );
 }
 
 // Check for password strength
