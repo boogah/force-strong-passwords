@@ -38,22 +38,43 @@ if ( ! defined( 'SLT_FSP_CAPS_CHECK' ) ) {
 
 // Hook onto profile update to check user profile update and throw an error if the password isn't strong
 add_action( 'user_profile_update_errors', 'slt_fsp_validate_profile_update', 0, 3 );
-function slt_fsp_validate_profile_update( $errors ) {
+// Note that because $errors is passed by reference, and doesn't *need* to be returned
+function slt_fsp_validate_profile_update( $errors, $update, $user_data ) {
+	return slt_fsp_validate_strong_password( $errors, $user_data );
+}
+
+// Hook onto password reset screen
+add_action( 'validate_password_reset', 'slt_fsp_validate_strong_password', 10, 2 );
+
+// Functionality used by both user profile and reset password validation
+function slt_fsp_validate_strong_password( $errors, $user_data ) {
+	$password = isset( $_POST[ 'pass1' ] ) ? $_POST[ 'pass1' ] : false;
+	$role = isset( $_POST[ 'role' ] ) ? $_POST[ 'role' ] : false;
+	$user_id = isset( $user_data->ID ) ? $user_data->ID : false;
+	$username = isset( $_POST["user_login"] ) ? $_POST["user_login"] : $user_data->user_login;
+
+	// Don't bother with any enforcement if there's no password, or there's already a password error
+	if ( false === $password || $errors->get_error_data("pass") )
+		return $errors;
+
+	// Should a strong password be enforced for this user?
 	$enforce = true;
-	$args = func_get_args();
-	$user_id = $args[2]->ID;
 	if ( $user_id ) {
 		// User ID specified
 		$enforce = slt_fsp_enforce_for_user( $user_id );
 	} else {
 		// No ID yet, adding new user - omit check for "weaker" roles
-		if ( in_array( $_POST["role"], array( "subscriber", "contributor" ) ) )
+		if ( $role && in_array( $role, array( "subscriber", "contributor" ) ) )
 			$enforce = false;
 	}
-	if ( $enforce && ! $errors->get_error_data("pass") && $_POST["pass1"] && slt_fsp_password_strength( $_POST["pass1"], $_POST["user_login"] ) != 4 )
+
+	// If enforcing and the strength check fails, add error
+	if ( $enforce && slt_fsp_password_strength( $password, $username ) != 4 )
 		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.' ) );
+
 	return $errors;
 }
+
 
 /**
  * Check whether the given WP user should be forced to have a strong password
@@ -61,23 +82,18 @@ function slt_fsp_validate_profile_update( $errors ) {
  * Tests on basic capabilities that can compromise a site. Doesn't check on higher capabilities.
  * It's assumed the someone who can't publish_posts won't be able to update_core!
  *
- * @param $user mixed Either a user ID or username
+ * @param $user int A user ID
  * @return boolean
  *
  */
-function slt_fsp_enforce_for_user( $user ) {
+function slt_fsp_enforce_for_user( $user_id ) {
 	$enforce = true;
 	if ( SLT_FSP_CAPS_CHECK && is_string( SLT_FSP_CAPS_CHECK ) ) {
-		if ( ! is_int( $user ) ) {
-			// Username provided, get ID
-			$userdata = get_user_by( 'login', $user );
-			$user = $userdata->ID;
-		}
 		// Get the capabilities to check
 		$check_caps = explode( ',', SLT_FSP_CAPS_CHECK );
 		$enforce = false; // Now we won't enforce unless the user has one of the caps specified
 		foreach ( $check_caps as $cap ) {
-			if ( user_can( $user, $cap ) ) {
+			if ( user_can( $user_id, $cap ) ) {
 				$enforce = true;
 				break;
 			}
@@ -115,30 +131,4 @@ function slt_fsp_password_strength( $i, $f ) {
 	if ( $c < 56 )
 		return $b;
 	return $a;
-}
-
-// Due to lack of decent hooks, use JS for "reset password form"
-// Not 100% secure, but it'll do for now...
-// @todo Find a way to do reset password validation on the server
-if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'rp' || $_GET['action'] == 'resetpass' ) && isset( $_GET['login'] ) ) {
-	add_action( 'login_head', 'slt_fsp_validate_reset_password' );
-}
-function slt_fsp_validate_reset_password() {
-
-	// Enforce for this user?
-	if ( slt_fsp_enforce_for_user( $_GET['login'] ) ) { ?>
-
-		<script type="text/javascript">
-		jQuery( document ).ready( function( $ ) {
-			$( '#resetpassform' ).submit( function() {
-				if ( ! $( '#pass-strength-result' ).hasClass( 'strong' ) ) {
-					alert( 'Please enter a strong password!' );
-					return false;
-				}
-			});
-		});
-		</script>
-
-	<?php }
-
 }
