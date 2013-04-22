@@ -17,7 +17,7 @@ Strong passwords are enforced for all users who have any of specified array of c
 
 Development code hosted at [GitHub](https://github.com/gyrus/Force-Strong-Passwords).
 
-=== Filters ===
+= Filters =
 
 **`slt_fsp_caps_check` (should return an array)**
 Modifies the array of capabilities that, if any one is held by the user whose password is being edited, the strong password enforcement will be triggered.
