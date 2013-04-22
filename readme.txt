@@ -19,7 +19,7 @@ Development code hosted at [GitHub](https://github.com/gyrus/Force-Strong-Passwo
 
 === Filters ===
 
-`slt_fsp_caps_check`
+`slt_fsp_caps_check` (should return an array)
 Modifies the array of capabilities that, if any one is held by the user whose password is being edited, the strong password enforcement will be triggered.
 
 To make sure users who can update the core require strong passwords:
@@ -34,8 +34,11 @@ To trigger the strong password enforcement for all users:
 
 	add_filter( 'slt_fsp_caps_check', function() { return array(); } );
 
-`slt_fsp_error_message`
+`slt_fsp_error_message` (should return a string)
 Modifies the default error message.
+
+`slt_fsp_weak_roles` (should return an array)
+Modifies the array of roles that are considered "weak", and for which the strong password enforcement is skipped when creating a new user. In this situation, the user object has yet to be created, so there are no capabilities to go by, just the role that has been set on the New Users form. The default array includes: `subscriber` and `contributor`.
 
 == Installation ==
 1. Upload the `force-strong-passwords` directory into the `/wp-content/plugins/` directory
@@ -45,6 +48,7 @@ Modifies the default error message.
 = 1.2 =
 * Added `slt_fsp_error_message` filter to customize error message
 * Deprecated `SLT_FSP_CAPS_CHECK` constant; added `slt_fsp_caps_check` filter
+* Added `slt_fsp_weak_roles` filter
 
 = 1.1 =
 * Used new `validate_password_reset` 3.5 hook to implement checking on reset password form (thanks simonwheatley!)

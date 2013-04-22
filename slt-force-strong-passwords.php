@@ -72,7 +72,7 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 		$enforce = slt_fsp_enforce_for_user( $user_id );
 	} else {
 		// No ID yet, adding new user - omit check for "weaker" roles
-		if ( $role && in_array( $role, array( "subscriber", "contributor" ) ) )
+		if ( $role && in_array( $role, apply_filters( 'slt_fsp_weak_roles', array( "subscriber", "contributor" ) ) ) )
 			$enforce = false;
 	}
 
