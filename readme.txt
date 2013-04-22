@@ -32,7 +32,7 @@ To make sure users who can update the core require strong passwords:
 
 To trigger the strong password enforcement for all users:
 
-	add_filter( 'slt_fsp_caps_check', function() { return array(); } );
+	add_filter( 'slt_fsp_caps_check', __return_empty_array() );
 
 **`slt_fsp_error_message` (should return a string)**
 Modifies the default error message.
