@@ -31,6 +31,7 @@ Development code hosted at [GitHub](https://github.com/gyrus/Force-Strong-Passwo
 
 == Changelog ==
 = 1.2 =
+* Added `slt_fsp_error_message` filter to customize error message
 
 = 1.1 =
 * Used new `validate_password_reset` 3.5 hook to implement checking on reset password form (thanks simonwheatley!)

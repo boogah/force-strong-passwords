@@ -73,7 +73,7 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 
 	// If enforcing and the strength check fails, add error
 	if ( $enforce && slt_fsp_password_strength( $password, $username ) != 4 )
-		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.' ) );
+		$errors->add( 'pass', apply_filters( 'slt_fsp_error_message', __( '<strong>ERROR</strong>: Please make the password a strong one.' ) ) );
 
 	return $errors;
 }
