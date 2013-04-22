@@ -38,7 +38,7 @@ if ( ! defined( 'SLT_FSP_CAPS_CHECK' ) ) {
 	 * @deprecated	Please use the slt_fsp_caps_check filter to customize the capabilities check for enforcement
 	 * @since		1.1
 	 */
-	define( 'SLT_FSP_CAPS_CHECK', 'update_core' );
+	define( 'SLT_FSP_CAPS_CHECK', 'publish_posts,upload_files,edit_published_posts' );
 }
 
 // Hook onto profile update to check user profile update and throw an error if the password isn't strong
