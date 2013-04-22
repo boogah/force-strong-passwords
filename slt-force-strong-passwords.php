@@ -32,7 +32,12 @@ if ( ! function_exists( 'add_action' ) ) {
 
 // Initialize
 if ( ! defined( 'SLT_FSP_CAPS_CHECK' ) ) {
-	// The default capabilities that will be checked for to trigger strong password enforcement
+	/**
+	 * The default capabilities that will be checked for to trigger strong password enforcement
+	 *
+	 * @deprecated	Please use the slt_fsp_caps_check filter to customize the capabilities check for enforcement
+	 * @since		1.1
+	 */
 	define( 'SLT_FSP_CAPS_CHECK', 'publish_posts,upload_files,edit_published_posts' );
 }
 
@@ -85,15 +90,19 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
  * Tests on basic capabilities that can compromise a site. Doesn't check on higher capabilities.
  * It's assumed the someone who can't publish_posts won't be able to update_core!
  *
- * @param $user int A user ID
- * @return boolean
- *
+ * @since	1.1
+ * @uses	SLT_FSP_CAPS_CHECK
+ * @uses	apply_filters()
+ * @uses	user_can()
+ * @param	$user	int			A user ID
+ * @return			boolean
  */
 function slt_fsp_enforce_for_user( $user_id ) {
 	$enforce = true;
-	if ( SLT_FSP_CAPS_CHECK && is_string( SLT_FSP_CAPS_CHECK ) ) {
-		// Get the capabilities to check
-		$check_caps = explode( ',', SLT_FSP_CAPS_CHECK );
+	$check_caps = explode( ',', SLT_FSP_CAPS_CHECK );
+	$check_caps = apply_filters( 'slt_fsp_caps_check', $check_caps );
+	$check_caps = (array) $check_caps;
+	if ( ! empty( $check_caps ) ) {
 		$enforce = false; // Now we won't enforce unless the user has one of the caps specified
 		foreach ( $check_caps as $cap ) {
 			if ( user_can( $user_id, $cap ) ) {
@@ -108,10 +117,10 @@ function slt_fsp_enforce_for_user( $user_id ) {
 /**
  * Check for password strength - based on JS function in WP core: /wp-admin/js/password-strength-meter.js
  *
- * @param $i string The password
- * @param $f string The user's username
- * @return integer 1 = very weak; 2 = weak; 3 = medium; 4 = strong
- *
+ * @since	1.0
+ * @param	$i	string	The password
+ * @param	$f	string	The user's username
+ * @return		integer	1 = very weak; 2 = weak; 3 = medium; 4 = strong
  */
 function slt_fsp_password_strength( $i, $f ) {
 	$h = 1; $e = 2; $b = 3; $a = 4; $d = 0; $g = null; $c = null;
