@@ -3,7 +3,7 @@
 /*
 Plugin Name: Force Strong Passwords
 Description: Forces users to use something strong when updating their passwords.
-Version: 1.2
+Version: 1.2.1
 Author: Steve Taylor
 Author URI: http://sltaylor.co.uk
 License: GPLv2
@@ -52,7 +52,7 @@ add_action( 'validate_password_reset', 'slt_fsp_validate_strong_password', 10, 2
 
 // Functionality used by both user profile and reset password validation
 function slt_fsp_validate_strong_password( $errors, $user_data ) {
-	$password = isset( $_POST[ 'pass1' ] ) ? $_POST[ 'pass1' ] : false;
+	$password = ( isset( $_POST[ 'pass1' ] ) && trim( $_POST[ 'pass1' ] ) ) ? $_POST[ 'pass1' ] : false;
 	$role = isset( $_POST[ 'role' ] ) ? $_POST[ 'role' ] : false;
 	$user_id = isset( $user_data->ID ) ? $user_data->ID : false;
 	$username = isset( $_POST["user_login"] ) ? $_POST["user_login"] : $user_data->user_login;

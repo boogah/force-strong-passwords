@@ -4,7 +4,7 @@ Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.2
+Stable tag: 1.2.1
 
 Forces users to enter something strong when updating their passwords.
 
@@ -45,6 +45,9 @@ Modifies the array of roles that are considered "weak", and for which the strong
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.2.1 =
+* Fixed bug that triggered enforcement on profile update even when no password is being set
+
 = 1.2 =
 * Added `slt_fsp_error_message` filter to customize error message
 * Deprecated `SLT_FSP_CAPS_CHECK` constant; added `slt_fsp_caps_check` filter
