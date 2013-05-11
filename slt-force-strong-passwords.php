@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 // Make sure we don't expose any info if called directly
 if ( ! function_exists( 'add_action' ) ) {
-	_e( "Hi there! I'm just a plugin, not much I can do when called directly." );
+	_e( "Hi there! I'm just a plugin, not much I can do when called directly.", 'slt-force-strong-passwords' );
 	exit;
 }
 
@@ -39,6 +39,8 @@ if ( ! defined( 'SLT_FSP_CAPS_CHECK' ) ) {
 	 * @since		1.1
 	 */
 	define( 'SLT_FSP_CAPS_CHECK', 'publish_posts,upload_files,edit_published_posts' );
+	$domain = 'slt-force-strong-passwords';
+	load_plugin_textdomain(  $domain, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 
 // Hook onto profile update to check user profile update and throw an error if the password isn't strong
@@ -78,7 +80,7 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 
 	// If enforcing and the strength check fails, add error
 	if ( $enforce && slt_fsp_password_strength( $password, $username ) != 4 )
-		$errors->add( 'pass', apply_filters( 'slt_fsp_error_message', __( '<strong>ERROR</strong>: Please make the password a strong one.' ) ) );
+		$errors->add( 'pass', apply_filters( 'slt_fsp_error_message', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'slt-force-strong-passwords' ) ) );
 
 	return $errors;
 }
