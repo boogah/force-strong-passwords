@@ -1,5 +1,5 @@
 === Force Strong Passwords ===
-Contributors: gyrus, simonwheatley
+Contributors: gyrus, simonwheatley, sparanoid
 Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
