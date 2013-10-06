@@ -3,15 +3,15 @@ Contributors: gyrus, simonwheatley, sparanoid
 Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
-Tested up to: 3.5.1
+Tested up to: 3.7-beta1
 Stable tag: 1.2.2
 
 Forces users to enter something strong when updating their passwords.
 
 == Description ==
-The WordPress user profile includes a JavaScript-powered indicator as a guide to the strength of a password being entered. However, there is nothing to stop users entering weak passwords.
+The WordPress user profile includes a JavaScript-powered indicator as a guide to the strength of a password being entered. However, there is nothing to stop users entering weak passwords. Often, users changing their password to something very weak is the most vulnerable aspect of a WordPress installation.
 
-Often, users changing their password to something very weak is the most vulnerable aspect of a WordPress installation. This plugin duplicates the WordPress JavaScript password strength check in PHP, and forces users with executive powers to use a strong password.
+**IMPORTANT:** As of WordPress 3.7, the password strength meter is based on the [Dropbox "zxcvbn" script](https://tech.dropbox.com/2012/04/zxcvbn-realistic-password-strength-estimation/). This is a far better check, but extensive and quite a job to port to PHP, which is the way this plugin worked prior to 3.7. For 3.7 and above, this plugin simply passes the results of the client-side zxcvbn check for the server to decide if an error should be thrown. Beware that a tech-savvy user *could* disable this check in the browser.
 
 Strong passwords are enforced for all users who have any of a specified array of capabilities. The default list is: `publish_posts`, `upload_files`, `edit_published_posts` (see [Roles and Capabilities](http://codex.wordpress.org/Roles_and_Capabilities)). If the user whose password is being edited holds any of these capabilities, the strong password enforcement will be triggered. To customize this list, use the `slt_fsp_caps_check` filter (see below).
 
@@ -45,6 +45,9 @@ Modifies the array of roles that are considered "weak", and for which the strong
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.3 =
+* Switched to JS-aided enforcement of new zxcvbn check in WP 3.7+
+
 = 1.2.2 =
 * Added Chinese Simplified Language support (thanks sparanoid!)
 
