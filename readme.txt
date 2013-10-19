@@ -47,6 +47,7 @@ Modifies the array of roles that are considered "weak", and for which the strong
 == Changelog ==
 = 1.3 =
 * Switched to JS-aided enforcement of new zxcvbn check in WP 3.7+
+* Added Japanese translation (thanks Fumito Mizuno!)
 
 = 1.2.2 =
 * Added Chinese Simplified Language support (thanks sparanoid!)
