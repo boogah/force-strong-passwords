@@ -36,7 +36,7 @@ if ( ! function_exists( 'add_action' ) ) {
 // Initialize constants
 
 /**
- * The default capabilities that will be checked for to trigger strong password enforcement
+ * Use zxcvbn for versions 3.7 and above
  *
  * @since		1.3
  */
