@@ -4,7 +4,7 @@ Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
 Tested up to: 3.7-RC2
-Stable tag: 1.3
+Stable tag: 1.3.1
 
 Forces users to enter something strong when updating their passwords.
 
@@ -45,6 +45,9 @@ Modifies the array of roles that are considered "weak", and for which the strong
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 1.3.1 =
+* Fixed so zxcvbn check respects localization (thanks lakrisgubben!)
+
 = 1.3 =
 * Switched to JS-aided enforcement of new zxcvbn check in WP 3.7+
 * Added Japanese translation (thanks Fumito Mizuno!)
