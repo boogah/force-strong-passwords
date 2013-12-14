@@ -3,7 +3,7 @@
 /*
 Plugin Name: Force Strong Passwords
 Description: Forces users to use something strong when updating their passwords.
-Version: 1.3.1
+Version: 1.3.2
 Author: Steve Taylor
 Author URI: http://sltaylor.co.uk
 License: GPLv2
