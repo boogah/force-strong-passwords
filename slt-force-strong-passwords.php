@@ -126,7 +126,8 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 		if ( SLT_FSP_USE_ZXCVBN ) {
 
 			// Check the strength passed from the zxcvbn meter
-			if ( ! empty( $_POST['slt-fsp-pass-strength-result'] ) && $_POST['slt-fsp-pass-strength-result'] != __( 'Strong' ) ) {
+			$compare = html_entity_decode( __( 'Strong' ), ENT_QUOTES, 'UTF-8');
+			if ( ! empty( $_POST['slt-fsp-pass-strength-result'] ) && $_POST['slt-fsp-pass-strength-result'] != $compare ) {
 				$password_ok = false;
 			}
 
