@@ -3,7 +3,7 @@ Contributors: gyrus, simonwheatley, sparanoid, jpry
 Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
-Tested up to: 4.0
+Tested up to: 4.1
 Stable tag: 1.3.4
 
 Forces users to enter something strong when updating their passwords.
