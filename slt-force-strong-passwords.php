@@ -167,6 +167,12 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
  */
 function slt_fsp_enforce_for_user( $user_id ) {
 	$enforce = true;
+
+	// force strong passwords from network admin screens
+	if(is_network_admin()) {
+		return $enforce;
+	}
+
 	$check_caps = explode( ',', SLT_FSP_CAPS_CHECK );
 	$check_caps = apply_filters( 'slt_fsp_caps_check', $check_caps );
 	$check_caps = (array) $check_caps;
