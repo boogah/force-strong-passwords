@@ -96,7 +96,7 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 	$password = ( isset( $_POST[ 'pass1' ] ) && trim( $_POST[ 'pass1' ] ) ) ? sanitize_text_field( $_POST[ 'pass1' ] ) : false;
 	$role = isset( $_POST[ 'role' ] ) ? sanitize_text_field( $_POST[ 'role' ] ) : false;
 	$user_id = isset( $user_data->ID ) ? sanitize_text_field( $user_data->ID ) : false;
-	$username = isset( $_POST["user_login"] ) ? $_POST["user_login"] : sanitize_text_field( $user_data->user_login );
+	$username = isset( $_POST["user_login"] ) ? sanitize_text_field( $_POST["user_login"] ) : $user_data->user_login ;
 
 	// No password set?
 	// Already got a password error?
