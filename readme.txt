@@ -48,6 +48,7 @@ Modifies the array of roles that are considered "weak", and for which the strong
 
 = 1.5 =
 * Added French translation (thanks [Damien Piquet](https://github.com/dpiquet)!)
+* Added input sanitization (thanks [Jenny Wong](https://github.com/missjwo)!)
 
 = 1.4 =
 * Enforce on multisite network admin screens (thanks [Damien Piquet](https://github.com/dpiquet)!)
