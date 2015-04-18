@@ -3,7 +3,7 @@
 /*
 Plugin Name: Force Strong Passwords
 Description: Forces users to use something strong when updating their passwords.
-Version: 1.4
+Version: 1.5
 Author: Steve Taylor
 Author URI: http://sltaylor.co.uk
 License: GPLv2
@@ -63,8 +63,6 @@ function slt_fsp_init() {
 	// Hooks
 	add_action( 'user_profile_update_errors', 'slt_fsp_validate_profile_update', 0, 3 );
 	add_action( 'validate_password_reset', 'slt_fsp_validate_strong_password', 10, 2 );
-	add_action( 'resetpass_form', 'slt_fsp_validate_resetpass_form', 10);
-
 
 	if ( SLT_FSP_USE_ZXCVBN ) {
 
@@ -90,11 +88,6 @@ function slt_fsp_validate_profile_update( $errors, $update, $user_data ) {
 	return slt_fsp_validate_strong_password( $errors, $user_data );
 }
 
-// Check password reset form and throw an error if the password isn't strong
-function slt_fsp_validate_resetpass_form( $user_data ) {
-	return slt_fsp_validate_strong_password( false, $user_data );
-}
-
 
 // Functionality used by both user profile and reset password validation
 function slt_fsp_validate_strong_password( $errors, $user_data ) {
@@ -107,7 +100,7 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 
 	// No password set?
 	// Already got a password error?
-	if ( ( false === $password ) || ( ( ! empty( $errors->get_error_data ) && $errors->get_error_data("pass") ) ) ) {
+	if ( ( false === $password ) || ( $errors->get_error_data("pass") ) ) {
 		return $errors;
 	}
 
@@ -151,7 +144,7 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 	}
 
 	// Error?
-	if ( ! $password_ok && ! empty( $errors ) ) {
+	if ( ! $password_ok ) {
 		$errors->add( 'pass', apply_filters( 'slt_fsp_error_message', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'slt-force-strong-passwords' ) ) );
 	}
 
