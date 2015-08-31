@@ -11,7 +11,7 @@ jQuery( document ).ready( function($) {
 		psr.parents( 'form' ).on( 'submit', function() {
 
 			// Store check results in hidden field
-			$( this ).append( '<input type="hidden" name="slt-fsp-pass-strength-result" value="' + psr.text() + '">' );
+			$( this ).append( '<input type="hidden" name="slt-fsp-pass-strength-result" value="' + psr.attr('class') + '">' );
 
 		});
 

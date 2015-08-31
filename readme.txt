@@ -3,8 +3,8 @@ Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry
 Donate link: https://www.girldevelopit.com/donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
-Tested up to: 4.2.2
-Stable tag: 1.5.2
+Tested up to: 4.3
+Stable tag: 1.6
 
 Forces users to enter something strong when updating their passwords.
 
@@ -52,6 +52,10 @@ The default array includes: `subscriber` and `contributor`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
+
+= 1.6 =
+* I18n fix courtesy of [John Dittmar](https://github.com/JohnDittmar/)
+* Tested to WordPress 4.3
 
 = 1.5.2 =
 * Clean up documentation
