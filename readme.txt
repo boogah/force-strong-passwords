@@ -36,8 +36,8 @@ Modifies the array of capabilities so that strong password enforcement will be t
 **Ex:** To trigger strong password enforcement for *all* users:
 
 	if ( function_exists( 'slt_fsp_init' ) ) {
-	  //plugin is activated
-	  add_filter( 'slt_fsp_caps_check', '__return_empty_array' );
+		//plugin is activated
+		add_filter( 'slt_fsp_caps_check', '__return_empty_array' );
 	}
 
 **`slt_fsp_error_message` (should return a string)**
