@@ -1,6 +1,6 @@
 # Force Strong Passwords
 
-Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry, alexandre-kozoubsky  
+Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry, zyphonic  
 Tags: passwords, security, users, profile  
 Requires at least: 3.5  
 Tested up to: 4.3  
