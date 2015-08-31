@@ -1,6 +1,6 @@
 # Force Strong Passwords
 
-Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry  
+Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry, alexandre-kozoubsky  
 Tags: passwords, security, users, profile  
 Requires at least: 3.5  
 Tested up to: 4.3  
@@ -36,7 +36,10 @@ Modifies the array of capabilities so that strong password enforcement will be t
 **Ex:** To trigger strong password enforcement for *all* users:
 
 ```
-	add_filter( 'slt_fsp_caps_check', __return_empty_array() );
+	if ( function_exists( 'slt_fsp_init' ) ) {
+		//plugin is activated
+		add_filter( 'slt_fsp_caps_check', '__return_empty_array' );
+	}
 ```
 
 **`slt_fsp_error_message` (should return a string)**
@@ -58,6 +61,9 @@ The default array includes: `subscriber` and `contributor`.
 
 ### 1.6
 * I18n fix courtesy of [John Dittmar](https://github.com/JohnDittmar/)
+* Added German translation (thanks [Becki Beckmann](https://github.com/beckspaced)!)
+* Added Brazilian Portuguese translation (thanks [Alexandre Kozoubsky](https://github.com/akozoubsky)!)
+* Documentation improvements
 * Tested to WordPress 4.3
 
 ### 1.5.2

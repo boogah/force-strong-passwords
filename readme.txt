@@ -1,5 +1,5 @@
 === Force Strong Passwords ===
-Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry
+Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry, alexandre-kozoubsky
 Donate link: https://www.girldevelopit.com/donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
@@ -55,6 +55,9 @@ The default array includes: `subscriber` and `contributor`.
 
 = 1.6 =
 * I18n fix courtesy of [John Dittmar](https://github.com/JohnDittmar/)
+* Added German translation (thanks [Becki Beckmann](https://github.com/beckspaced)!)
+* Added Brazilian Portuguese translation (thanks [Alexandre Kozoubsky](https://github.com/akozoubsky)!)
+* Documentation improvements
 * Tested to WordPress 4.3
 
 = 1.5.2 =
