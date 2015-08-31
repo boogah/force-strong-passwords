@@ -3,8 +3,8 @@
 Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry  
 Tags: passwords, security, users, profile  
 Requires at least: 3.5  
-Tested up to: 4.3
-Stable tag: 1.6
+Tested up to: 4.3  
+Stable tag: 1.6  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
 ## Description
