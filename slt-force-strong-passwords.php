@@ -4,7 +4,7 @@
 Plugin Name: Force Strong Passwords
 Plugin URI: https://github.com/boogah/Force-Strong-Passwords/
 Description: Forces users to use something strong when updating their passwords.
-Version: 1.6.1
+Version: 1.6.2
 Author: Jason Cosper
 Author URI: http://jasoncosper.com/
 License: GPLv2
@@ -133,8 +133,9 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 		if ( SLT_FSP_USE_ZXCVBN ) {
 
 			// Check the strength passed from the zxcvbn meter
-			$compare = html_entity_decode( __( 'strong' ), ENT_QUOTES, 'UTF-8');
-			if ( ! empty( $_POST['slt-fsp-pass-strength-result'] ) && $_POST['slt-fsp-pass-strength-result'] != $compare ) {
+			$compare_strong = html_entity_decode( __( 'strong' ), ENT_QUOTES, 'UTF-8');
+			$compare_strong_reset = html_entity_decode( __( 'hide-if-no-js strong' ), ENT_QUOTES, 'UTF-8');
+			if ( ! in_array( $_POST['slt-fsp-pass-strength-result'] , array(null, $compare_strong, $compare_strong_reset ))) {
 				$password_ok = false;
 			}
 
