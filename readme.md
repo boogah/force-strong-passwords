@@ -4,7 +4,7 @@ Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry, zyphonic
 Tags: passwords, security, users, profile  
 Requires at least: 3.5  
 Tested up to: 4.3  
-Stable tag: 1.6.1  
+Stable tag: 1.6.2  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
 ## Description
@@ -58,6 +58,10 @@ The default array includes: `subscriber` and `contributor`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 ## Changelog
+
+### 1.6.2
+* Fixing issue with password reset page
+* Tested to WordPress 4.3.1
 
 ### 1.6.1
 * Fixing the i18n fix
