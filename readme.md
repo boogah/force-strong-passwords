@@ -60,7 +60,7 @@ The default array includes: `subscriber` and `contributor`.
 ## Changelog
 
 ### 1.6.2
-* Fixing issue with password reset page
+* Fixed issue where password resets weren't working
 * Tested to WordPress 4.3.1
 
 ### 1.6.1
