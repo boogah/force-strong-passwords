@@ -4,7 +4,7 @@
 Plugin Name: Force Strong Passwords
 Plugin URI: https://github.com/boogah/Force-Strong-Passwords/
 Description: Forces users to use something strong when updating their passwords.
-Version: 1.6.2
+Version: 1.6.3
 Author: Jason Cosper
 Author URI: http://jasoncosper.com/
 License: GPLv2
@@ -79,9 +79,9 @@ function slt_fsp_init() {
 
 // Enqueue force zxcvbn check script
 function slt_fsp_enqueue_force_zxcvbn_script() {
-	wp_enqueue_script( 'slt-fsp-force-zxcvbn', plugins_url( 'force-zxcvbn.min.js', __FILE__ ), array( 'jquery' ), '1.0' );
+	wp_enqueue_script( 'slt-fsp-force-zxcvbn', plugins_url( 'force-zxcvbn.min.js', __FILE__ ), array( 'jquery' ), '1.6.3' );
 	// Also change hint
-	wp_enqueue_script( 'slt-fsp-admin-js', plugins_url( 'js-admin.min.js', __FILE__ ), array( 'jquery' ), '1.0' );
+	wp_enqueue_script( 'slt-fsp-admin-js', plugins_url( 'js-admin.min.js', __FILE__ ), array( 'jquery' ), '1.6.3' );
 }
 
 
