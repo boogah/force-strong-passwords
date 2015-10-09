@@ -3,7 +3,7 @@
 /*
 Plugin Name: Force Strong Passwords
 Plugin URI: https://github.com/boogah/Force-Strong-Passwords/
-Description: Forces users to set a strong password.
+Description: Forces privileged users to set a strong password.
 Version: 1.6.4
 Author: Jason Cosper
 Author URI: http://jasoncosper.com/
