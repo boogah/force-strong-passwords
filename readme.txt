@@ -4,9 +4,9 @@ Donate link: https://www.girldevelopit.com/donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
 Tested up to: 4.3.1
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 
-Forces users to enter something strong when updating their passwords.
+Forces privileged users to set a strong password.
 
 == Description ==
 The user profile editor includes a JavaScript-powered password strength indicator. However, there is nothing currently built into WordPress core to prevent users from entering weak passwords. Users changing their password to something weak is one of the most vulnerable aspects of a WordPress installation.
@@ -55,6 +55,9 @@ The default array includes: `subscriber` and `contributor`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
+
+= 1.6.4 =
+* Add a new `FSP_PLUGIN_VERSION` constant
 
 = 1.6.3 =
 * Updated `wp_enqueue_script` version argument
