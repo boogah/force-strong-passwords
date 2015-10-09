@@ -4,7 +4,7 @@ Donate link: https://www.girldevelopit.com/donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
 Tested up to: 4.3.1
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 
 Forces users to enter something strong when updating their passwords.
 
@@ -55,6 +55,9 @@ The default array includes: `subscriber` and `contributor`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
+
+= 1.6.4 =
+* Add a new `FSP_PLUGIN_VERSION` constant
 
 = 1.6.3 =
 * Updated `wp_enqueue_script` version argument
