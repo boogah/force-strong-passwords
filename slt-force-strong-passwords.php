@@ -114,7 +114,18 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 
 	// No password set?
 	// Already got a password error?
-	if ( ( false === $password ) || ( $errors->get_error_data("pass") ) ) {
+
+	global $wp_error;  // also check this
+	if (is_wp_error($errors)) { // is this a WP error object?
+		if($errors->get_error_data("pass")){
+			return $errors;
+		}
+	} elseif (is_wp_error($wp_error)) {  // is this a WP error object?
+		if($wp_error->get_error_data("pass")){
+			$errors = $wp_error; // not sure if this is needed...
+			return $wp_error;
+		}
+	} elseif ( false === $password ) {
 		return $errors;
 	}
 
@@ -159,7 +170,7 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 	}
 
 	// Error?
-	if ( ! $password_ok ) {
+	if ( ! $password_ok && is_wp_error($errors)) {  // is this a WP error object?
 		$errors->add( 'pass', apply_filters( 'slt_fsp_error_message', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'slt-force-strong-passwords' ) ) );
 	}
 
