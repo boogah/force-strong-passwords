@@ -114,18 +114,7 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 
 	// No password set?
 	// Already got a password error?
-
-	global $wp_error;  // also check this
-	if (is_wp_error($errors)) { // is this a WP error object?
-		if($errors->get_error_data("pass")){
-			return $errors;
-		}
-	} elseif (is_wp_error($wp_error)) {  // is this a WP error object?
-		if($wp_error->get_error_data("pass")){
-			$errors = $wp_error; // not sure if this is needed...
-			return $wp_error;
-		}
-	} elseif ( false === $password ) {
+	if ( ( false === $password ) || ( is_wp_error($errors) && $errors->get_error_data("pass") ) ) {
 		return $errors;
 	}
 
