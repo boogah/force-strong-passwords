@@ -3,8 +3,8 @@ Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry, zyphonic
 Donate link: https://www.girldevelopit.com/donate
 Tags: passwords, security, users, profile
 Requires at least: 3.5
-Tested up to: 4.3.1
-Stable tag: 1.6.4
+Tested up to: 4.4.2
+Stable tag: 1.6.5
 
 Forces privileged users to set a strong password.
 
@@ -55,6 +55,9 @@ The default array includes: `subscriber` and `contributor`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
+
+= 1.6.5 =
+* Fix problem with non wp-error object:$errors (thanks [Terrance Orletsky](https://github.com/EarthmanWeb)!)
 
 = 1.6.4 =
 * Add a new `FSP_PLUGIN_VERSION` constant
