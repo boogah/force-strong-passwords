@@ -59,6 +59,9 @@ The default array includes: `subscriber` and `contributor`.
 
 ## Changelog
 
+### 1.6.5
+* Fix problem with non wp-error object:$errors (thanks [Terrance Orletsky](https://github.com/EarthmanWeb)!)
+
 ### 1.6.4
 * Add a new `FSP_PLUGIN_VERSION` constant
 
