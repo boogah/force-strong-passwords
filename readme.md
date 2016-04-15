@@ -3,17 +3,17 @@
 Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry, zyphonic  
 Tags: passwords, security, users, profile  
 Requires at least: 3.5  
-Tested up to: 4.4.2  
-Stable tag: 1.6.5  
+Tested up to: 4.5  
+Stable tag: 1.7  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
 ## Description
 
 The WordPress user profile editor includes a JavaScript-powered password strength indicator. However, there is nothing currently built into WordPress core to prevent users from entering weak passwords. Users changing their password to something weak is one of the most vulnerable aspects of a WordPress installation.
 
-With Force Strong Passwords activated, strong passwords are enforced for users with `publish_posts`, `upload_files` & `edit_published_posts` capabilites. Should a user with these capabilities (normally an Author, Editor or Administrator) attempt to change their password, the strong password enforcement will be triggered.
+With Force Strong Passwords activated, strong passwords are enforced for users with `publish_posts`, `upload_files` & `edit_published_posts` capabilities. Should a user with these capabilities (normally an Author, Editor or Administrator) attempt to change their password, the strong password enforcement will be triggered.
 
-To customize the list of [capabilites](http://codex.wordpress.org/Roles_and_Capabilities) Force Strong Passwords checks for, use the `slt_fsp_caps_check` filter.
+To customize the list of [capabilities](http://codex.wordpress.org/Roles_and_Capabilities) Force Strong Passwords checks for, use the `slt_fsp_caps_check` filter.
 
 **IMPORTANT:** As of WordPress 3.7, the password strength meter in core is based on the [`zxcvbn` JavaScript library](https://tech.dropbox.com/2012/04/zxcvbn-realistic-password-strength-estimation/) from Dropbox. Force Strong Passwords simply passes the results of the client-side `zxcvbn` check along for the server to decide if an error should be thrown. Be aware that a technically savvy user *could* disable this check in the browser.
 
@@ -58,6 +58,11 @@ The default array includes: `subscriber` and `contributor`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 ## Changelog
+
+### 1.7
+
+* Work on tidying up code.
+* Update hint link to use official zxcvbn test site. (thanks [EmTeedee](https://github.com/EmTeedee)!)
 
 ### 1.6.5
 * Fix problem with non wp-error object:$errors (thanks [Terrance Orletsky](https://github.com/EarthmanWeb)!)
