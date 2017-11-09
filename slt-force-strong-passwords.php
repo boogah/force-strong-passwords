@@ -1,41 +1,34 @@
 <?php
 /**
- Plugin Name: Force Strong Passwords
- Plugin URI: https://github.com/boogah/Force-Strong-Passwords/
- Description: Forces privileged users to set a strong password.
- Version: 1.7
- Author: Jason Cosper
- Author URI: http://jasoncosper.com/
- License: GPLv2
- @package force-strong-passwords
+ * Plugin Name:  Force Strong Passwords
+ * Plugin URI:   https://github.com/boogah/force-strong-passwords/
+ * Description:  Forces privileged users to set a strong password.
+ * Version:      1.8.0
+ * Author:       Jason Cosper
+ * Author URI:   http://jasoncosper.com/
+ * License:      GPLv3
+ * License URI:  https://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain:  force-strong-passwords
+ * Domain Path:  /languages
+ *
+ * @link         https://jasoncosper.com/
+ * @package      WordPress
+ * @author       Jason Cosper
+ * @version      1.8.0
  */
 
-/**
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License, version 2, as
- published by the Free Software Foundation.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
 global $wp_version;
 
 
 // Make sure we don't expose any info if called directly.
 if ( ! function_exists( 'add_action' ) ) {
-	_e( "Hi there! I'm just a plugin, not much I can do when called directly.", 'slt-force-strong-passwords' );
+	esc_html_e( "Hi there! I'm just a plugin, not much I can do when called directly.", 'slt-force-strong-passwords' );
 	exit;
 }
 
 
 /**
- Initialize constants.
+ * Initialize constants.
  */
 
 // Our plugin.
@@ -48,7 +41,7 @@ define( 'FSP_PLUGIN_VERSION', $plugin_data['Version'] );
 /**
  * Use zxcvbn for versions 3.7 and above
  *
- * @since		1.3
+ * @since       1.3
  */
 define( 'SLT_FSP_USE_ZXCVBN', version_compare( round( $wp_version, 1 ), '3.7' ) >= 0 );
 
@@ -56,8 +49,8 @@ if ( ! defined( 'SLT_FSP_CAPS_CHECK' ) ) {
 	/**
 	 * The default capabilities that will be checked for to trigger strong password enforcement
 	 *
-	 * @deprecated	Please use the slt_fsp_caps_check filter to customize the capabilities check for enforcement
-	 * @since		1.1
+	 * @deprecated  Please use the slt_fsp_caps_check filter to customize the capabilities check for enforcement
+	 * @since       1.1
 	 */
 	define( 'SLT_FSP_CAPS_CHECK', 'publish_posts,upload_files,edit_published_posts' );
 }
@@ -85,16 +78,15 @@ function slt_fsp_init() {
 
 }
 
-
 /**
- Enqueue force zxcvbn check script.
+ * Enqueue `force-zxcvbn` check script.
+ * Gives you the unminified version if `SCRIPT_DEBUG` is set to 'true'.
  */
 function slt_fsp_enqueue_force_zxcvbn_script() {
-	wp_enqueue_script( 'slt-fsp-force-zxcvbn', plugins_url( 'force-zxcvbn.min.js', __FILE__ ), array( 'jquery' ), FSP_PLUGIN_VERSION );
-	// Also change hint.
-	wp_enqueue_script( 'slt-fsp-admin-js', plugins_url( 'js-admin.min.js', __FILE__ ), array( 'jquery' ), FSP_PLUGIN_VERSION );
+	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+	wp_enqueue_script( 'slt-fsp-force-zxcvbn', plugin_dir_url( __FILE__ ) . 'force-zxcvbn' . $suffix . '.js', array( 'jquery' ), FSP_PLUGIN_VERSION );
+	wp_enqueue_script( 'slt-fsp-admin-js', plugin_dir_url( __FILE__ ) . 'js-admin' . $suffix . '.js', array( 'jquery' ), FSP_PLUGIN_VERSION );
 }
-
 
 /**
  * Check user profile update and throw an error if the password isn't strong.
@@ -104,7 +96,7 @@ function slt_fsp_validate_profile_update( $errors, $update, $user_data ) {
 }
 
 /**
- Check password reset form and throw an error if the password isn't strong.
+ * Check password reset form and throw an error if the password isn't strong.
  */
 function slt_fsp_validate_resetpass_form( $user_data ) {
 	return slt_fsp_validate_strong_password( false, $user_data );
@@ -112,15 +104,15 @@ function slt_fsp_validate_resetpass_form( $user_data ) {
 
 
 /**
- Functionality used by both user profile and reset password validation.
+ * Functionality used by both user profile and reset password validation.
  */
 function slt_fsp_validate_strong_password( $errors, $user_data ) {
 	$password_ok = true;
-	$enforce = true;
-	$password = ( isset( $_POST['pass1'] ) && trim( $_POST['pass1'] ) ) ? sanitize_text_field( $_POST['pass1'] ) : false;
-	$role = isset( $_POST['role'] ) ? sanitize_text_field( $_POST['role'] ) : false;
-	$user_id = isset( $user_data->ID ) ? sanitize_text_field( $user_data->ID ) : false;
-	$username = isset( $_POST['user_login'] ) ? sanitize_text_field( $_POST['user_login'] ) : $user_data->user_login ;
+	$enforce     = true;
+	$password    = ( isset( $_POST['pass1'] ) && trim( $_POST['pass1'] ) ) ? sanitize_text_field( $_POST['pass1'] ) : false;
+	$role        = isset( $_POST['role'] ) ? sanitize_text_field( $_POST['role'] ) : false;
+	$user_id     = isset( $user_data->ID ) ? sanitize_text_field( $user_data->ID ) : false;
+	$username    = isset( $_POST['user_login'] ) ? sanitize_text_field( $_POST['user_login'] ) : $user_data->user_login;
 
 	// No password set?
 	// Already got a password error?
@@ -149,9 +141,9 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
 		if ( SLT_FSP_USE_ZXCVBN ) {
 
 			// Check the strength passed from the zxcvbn meter.
-			$compare_strong = html_entity_decode( __( 'strong' ), ENT_QUOTES, 'UTF-8' );
+			$compare_strong       = html_entity_decode( __( 'strong' ), ENT_QUOTES, 'UTF-8' );
 			$compare_strong_reset = html_entity_decode( __( 'hide-if-no-js strong' ), ENT_QUOTES, 'UTF-8' );
-			if ( ! in_array( $_POST['slt-fsp-pass-strength-result'] , array( null, $compare_strong, $compare_strong_reset ) ) ) {
+			if ( ! in_array( $_POST['slt-fsp-pass-strength-result'], array( null, $compare_strong, $compare_strong_reset ), true ) ) {
 				$password_ok = false;
 			}
 		} else {
@@ -178,12 +170,12 @@ function slt_fsp_validate_strong_password( $errors, $user_data ) {
  * Tests on basic capabilities that can compromise a site. Doesn't check on higher capabilities.
  * It's assumed the someone who can't publish_posts won't be able to update_core!
  *
- * @since	1.1
- * @uses	SLT_FSP_CAPS_CHECK
- * @uses	apply_filters()
- * @uses	user_can()
- * @param	int $user_id A user ID.
- * @return	boolean
+ * @since   1.1
+ * @uses    SLT_FSP_CAPS_CHECK
+ * @uses    apply_filters()
+ * @uses    user_can()
+ * @param   int $user_id A user ID.
+ * @return  boolean
  */
 function slt_fsp_enforce_for_user( $user_id ) {
 	$enforce = true;
@@ -212,10 +204,10 @@ function slt_fsp_enforce_for_user( $user_id ) {
 /**
  * Check for password strength - based on JS function in pre-3.7 WP core: /wp-admin/js/password-strength-meter.js
  *
- * @since	1.0
- * @param	string $i	The password.
- * @param	string $f	The user's username.
- * @return		integer	1 = very weak; 2 = weak; 3 = medium; 4 = strong
+ * @since   1.0
+ * @param   string $i   The password.
+ * @param   string $f   The user's username.
+ * @return  integer 1 = very weak; 2 = weak; 3 = medium; 4 = strong
  */
 function slt_fsp_password_strength( $i, $f ) {
 	$h = 1;

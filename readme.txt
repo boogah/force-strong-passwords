@@ -2,9 +2,9 @@
 Contributors: boogah, gyrus, simonwheatley, sparanoid, jpry, zyphonic
 Donate link: https://www.girldevelopit.com/donate
 Tags: passwords, security, users, profile
-Requires at least: 3.5
-Tested up to: 4.5
-Stable tag: 1.7
+Requires at least: 3.7
+Tested up to: 4.9
+Stable tag: 1.8
 
 Forces privileged users to set a strong password.
 
@@ -55,6 +55,10 @@ The default array includes: `subscriber` and `contributor`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
+
+= 1.8 =
+* More code tidying.
+* Will now return unminified version of JavaScript if `SCRIPT_DEBUG` is set to 'true'.
 
 = 1.7 =
 * Work on tidying up code.
